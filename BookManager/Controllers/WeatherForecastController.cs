@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BookManager.Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -17,15 +19,19 @@ namespace BookManager.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly BookContext bookContext;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, BookContext context)
         {
             _logger = logger;
+            bookContext = context;
         }
 
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
+            bookContext.Database.Migrate();
+
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
