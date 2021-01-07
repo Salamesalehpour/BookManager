@@ -30,7 +30,7 @@ namespace BookManager.Controllers
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
-            bookContext.Database.Migrate();
+            //bookContext.Database.EnsureCreated();
 
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
