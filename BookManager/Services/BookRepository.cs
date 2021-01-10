@@ -29,9 +29,34 @@ namespace BookManager.Api.Services
                 .ToList();
         }
 
-        public Book GetBook(int bookId)
+        public Book GetBook(Guid bookId)
         {
+            if (bookId == Guid.Empty)
+            {
+                throw new ArgumentException(nameof(bookId));
+            }
+
             return bookContext.Books.FirstOrDefault(b => b.Id == bookId);
+        }
+
+        public void AddBook(Book book)
+        {
+            try
+            {
+                if (book.Author == null)
+                {
+                    book.Author = new Author { Id = 1, Name = "Salami" };
+                }
+
+                bookContext.Books.Add(book);
+
+                bookContext.SaveChanges();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public void Dispose()
