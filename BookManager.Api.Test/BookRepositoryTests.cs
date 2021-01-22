@@ -29,12 +29,16 @@ namespace BookManager.Api.Test
                 context.Books.Add(new Book { Id = Guid.NewGuid(), Title = "Node js" });
 
                 context.SaveChanges();
+            }
 
+            using (var context = new BookContext(option))
+            {
                 var bookRepo = new BookRepository(context);
 
                 var books = bookRepo.GetBooks(1, 3);
 
                 Assert.Equal(3, books.Count());
+
             }
         }
 
